@@ -3,6 +3,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import goalRouter from "./router/goalRouters.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+import connectDB from "./config/db.js";
+
+connectDB();
 
 const app = express();
 const PORT = process.env.PORT;
