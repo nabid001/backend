@@ -49,7 +49,22 @@ export const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access Public
 export const loginUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Login is here" });
+  const { email, password } = req.body;
+
+  // Check for user email
+  const user = await Users.findOne({ email });
+
+  // Compare password
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(201).json({
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid credentials");
+  }
 });
 
 // @desc    Get use data
